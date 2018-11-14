@@ -1,0 +1,17 @@
+FROM alpine
+
+MAINTAINER cn100800
+
+WORKDIR /data/www
+
+ENV NODE_ENV=production
+ENV HOST 0.0.0.0
+
+RUN apk add --update nodejs nodejs-npm supervisor && \
+    ln -s /usr/bin/supervisord /usr/bin/super
+
+COPY build.ini /etc/supervisor.d/
+
+EXPOSE 80
+
+ENTRYPOINT ["/usr/bin/super", "-n" ,"-c","/etc/supervisord.conf"]

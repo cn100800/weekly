@@ -1,0 +1,26 @@
+version: "2"
+services:
+    server:
+        build: ./server
+        image: weekly-server
+        container_name: weekly-server
+        restart: always
+        volumes:
+            - ./../server:/data/www/server
+        expose:
+            - "80"
+    web:
+        build: ./web
+        image: weekly-web
+        container_name: weekly-web
+        restart: always
+        environment:
+            - NODE_ENV=production
+            - HOST=0.0.0.0
+        volumes:
+            - ./../web:/data/www/web
+        links:
+            - server
+        ports:
+            - "9005:80"
+

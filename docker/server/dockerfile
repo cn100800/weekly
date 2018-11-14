@@ -1,0 +1,13 @@
+FROM alpine
+
+MAINTAINER cn100800
+
+WORKDIR /data/www
+
+RUN apk add --update go supervisor && \
+    ln -s /usr/bin/supervisord /usr/bin/super
+
+#COPY build.ini /etc/supervisor.d/
+
+ENTRYPOINT ["/usr/bin/super", "-n" ,"-c","/etc/supervisord.conf"]
+
